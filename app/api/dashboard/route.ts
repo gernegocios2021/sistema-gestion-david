@@ -3,7 +3,7 @@ import { executeQuery } from '@/lib/db';
 
 export async function GET() {
   try {
-    // Total de ventas este mes
+    // Total de ventas este mes (descontando gastos de taller)
     const ventasResult = await executeQuery(`
       SELECT 
         COUNT(v.id) as total_ventas, 
@@ -15,6 +15,7 @@ export async function GET() {
       WHERE DATE_TRUNC('month', v.fecha_venta) = DATE_TRUNC('month', NOW())
     `);
 
+    const ventas = ventasResult.rows[0];
     const utilidad_neta = (parseFloat(ventas.utilidad_bruta) || 0) - (parseFloat(ventas.gastos_totales) || 0);
 
     // Stock actual
@@ -43,7 +44,6 @@ export async function GET() {
       WHERE DATE_TRUNC('month', fecha_venta) = DATE_TRUNC('month', NOW())
     `);
 
-    const ventas = ventasResult.rows[0];
     const stock = stockResult.rows[0];
     const margen = margenResult.rows[0];
 
@@ -53,7 +53,9 @@ export async function GET() {
         ventas_mes: {
           total_ventas: ventas.total_ventas || 0,
           monto_ventas: parseFloat(ventas.monto_ventas) || 0,
-          utilidad_total: parseFloat(ventas.utilidad_total) || 0,
+          utilidad_bruta: parseFloat(ventas.utilidad_bruta) || 0,
+          utilidad_neta: utilidad_neta,
+          gastos_taller: parseFloat(ventas.gastos_totales) || 0,
           margen_promedio: parseFloat(margen.margen_promedio) || 0
         },
         stock_actual: {
