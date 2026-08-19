@@ -51,25 +51,25 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow">
+                <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Últimas Ventas</h2>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b">
-                <th className="text-left py-3 px-4">Fecha</th>
-                <th className="text-left py-3 px-4">Vehículo</th>
-                <th className="text-left py-3 px-4">Cliente</th>
-                <th className="text-right py-3 px-4">Precio Venta</th>
-                <th className="text-right py-3 px-4">Utilidad</th>
+              <tr className="border-b bg-gray-100">
+                <th className="text-left py-3 px-4 text-gray-900 font-semibold">Fecha</th>
+                <th className="text-left py-3 px-4 text-gray-900 font-semibold">Vehículo</th>
+                <th className="text-left py-3 px-4 text-gray-900 font-semibold">Cliente</th>
+                <th className="text-right py-3 px-4 text-gray-900 font-semibold">Precio Venta</th>
+                <th className="text-right py-3 px-4 text-gray-900 font-semibold">Utilidad</th>
               </tr>
             </thead>
             <tbody>
               {data.ultimas_ventas.map((venta: any) => (
                 <tr key={venta.id} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-4">{new Date(venta.fecha_venta).toLocaleDateString('es-AR')}</td>
-                  <td className="py-3 px-4">{venta.modelo} ({venta.patente})</td>
-                  <td className="py-3 px-4">{venta.nombre} {venta.apellido}</td>
-                  <td className="py-3 px-4 text-right font-semibold">${parseFloat(venta.precio_venta).toLocaleString('es-AR')}</td>
+                  <td className="py-3 px-4 text-gray-900">{new Date(venta.fecha_venta).toLocaleDateString('es-AR')}</td>
+                  <td className="py-3 px-4 text-gray-900">{venta.modelo} ({venta.patente})</td>
+                  <td className="py-3 px-4 text-gray-900">{venta.nombre} {venta.apellido}</td>
+                  <td className="py-3 px-4 text-right font-semibold text-gray-900">${parseFloat(venta.precio_venta).toLocaleString('es-AR')}</td>
                   <td className="py-3 px-4 text-right font-semibold text-green-600">
                     ${parseFloat(venta.utilidad).toLocaleString('es-AR')}
                   </td>
