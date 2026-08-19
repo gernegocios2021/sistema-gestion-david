@@ -1,0 +1,31 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { executeQuery } from '@/lib/db';
+
+export async function GET() {
+  try {
+    const result = await executeQuery(
+      'SELECT * FROM vehiculos ORDER BY created_at DESC'
+    );
+    return NextResponse.json({ success: true, data: result.rows });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const { patente, marca, modelo, ano, kilometros, precio_base } =
+      await req.json();
+
+    const result = await executeQuery(
+      `INSERT INTO vehiculos (patente, marca, modelo, ano, kilometros, precio_base, estado)
+       VALUES ($1, $2, $3, $4, $5, $6, 'disponible')
+       RETURNING *`,
+      [patente, marca, modelo, ano, kilometros, precio_base]
+    );
+
+    return NextResponse.json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
+  }
+}
