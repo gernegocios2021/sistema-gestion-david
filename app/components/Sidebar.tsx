@@ -38,6 +38,17 @@ export default function Sidebar() {
           <span>🚗</span> Vehículos
         </Link>
 
+                <Link
+          href="/compras"
+          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+            isActive('/compras') 
+              ? 'bg-blue-600 text-white' 
+              : 'text-gray-300 hover:bg-gray-800'
+          }`}
+        >
+          <span>📦</span> Compras
+        </Link>
+
         <Link
           href="/ventas"
           className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
