@@ -5,12 +5,17 @@ export async function GET() {
   try {
     // Total de ventas este mes
     const ventasResult = await executeQuery(`
-      SELECT COUNT(*) as total_ventas, 
-             SUM(CAST(precio_venta AS NUMERIC)) as monto_ventas,
-             SUM(CAST(utilidad AS NUMERIC)) as utilidad_total
-      FROM ventas_vehiculos 
-      WHERE DATE_TRUNC('month', fecha_venta) = DATE_TRUNC('month', NOW())
+      SELECT 
+        COUNT(v.id) as total_ventas, 
+        SUM(CAST(v.precio_venta AS NUMERIC)) as monto_ventas,
+        SUM(CAST(v.utilidad AS NUMERIC)) as utilidad_bruta,
+        COALESCE(SUM(CAST(gt.monto AS NUMERIC)), 0) as gastos_totales
+      FROM ventas_vehiculos v
+      LEFT JOIN gastos_taller gt ON v.vehiculo_id = gt.vehiculo_id
+      WHERE DATE_TRUNC('month', v.fecha_venta) = DATE_TRUNC('month', NOW())
     `);
+
+    const utilidad_neta = (parseFloat(ventas.utilidad_bruta) || 0) - (parseFloat(ventas.gastos_totales) || 0);
 
     // Stock actual
     const stockResult = await executeQuery(
