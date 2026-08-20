@@ -3,12 +3,14 @@ import { executeQuery } from '@/lib/db';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { vehiculo_id: string } }
+  { params }: { params: Promise<{ vehiculo_id: string }> }
 ) {
   try {
+    const { vehiculo_id } = await params;
+    
     const result = await executeQuery(
       'SELECT * FROM compras_vehiculos WHERE vehiculo_id = $1 ORDER BY fecha_compra DESC LIMIT 1',
-      [params.vehiculo_id]
+      [vehiculo_id]
     );
 
     if (result.rows.length === 0) {
