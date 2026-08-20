@@ -30,3 +30,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: String(error) }, { status: 500 });
   }
 }
+export async function GET() {
+  try {
+    const result = await executeQuery(
+      'SELECT * FROM compras_vehiculos ORDER BY fecha_compra DESC'
+    );
+    return NextResponse.json({ success: true, data: result.rows });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
+  }
+}
