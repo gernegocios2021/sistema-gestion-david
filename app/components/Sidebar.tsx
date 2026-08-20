@@ -48,6 +48,16 @@ export default function Sidebar() {
         >
           <span>📦</span> Compras
         </Link>
+                <Link
+          href="/lista-precios"
+          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+            isActive('/lista-precios') 
+              ? 'bg-blue-600 text-white' 
+              : 'text-gray-300 hover:bg-gray-800'
+          }`}
+        >
+          <span>💰</span> Lista de Precios
+        </Link>
 
         <Link
           href="/ventas"
