@@ -97,8 +97,8 @@ export default function ImportarPage() {
     <div className="flex">
       <Sidebar />
       
-      <div className="ml-64 flex-1 bg-gray-50 min-h-screen p-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="md:ml-64 flex-1 bg-gray-50 min-h-screen p-4 md:p-8">
+                <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">📥 Importar Lista de Precios</h1>
 
           <div className="bg-white p-8 rounded-lg shadow mb-8">

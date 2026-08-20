@@ -64,8 +64,7 @@ export default function ComprasPage() {
     <div className="flex">
       <Sidebar />
       
-      <div className="ml-64 flex-1 bg-gray-50 min-h-screen p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="md:ml-64 flex-1 bg-gray-50 min-h-screen p-4 md:p-8">        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900">Compras de Vehículos</h1>
             <button

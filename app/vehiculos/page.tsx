@@ -31,8 +31,7 @@ export default function VehiculosPage() {
     <div className="flex">
       <Sidebar />
       
-      <div className="ml-64 flex-1 bg-gray-50 min-h-screen p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="md:ml-64 flex-1 bg-gray-50 min-h-screen p-4 md:p-8">        <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-900">Vehículos Disponibles</h1>
             <p className="text-gray-600 text-sm mt-2">💡 Solo visualización. Los vehículos se agregan desde COMPRAS o TOMA DE USADO</p>

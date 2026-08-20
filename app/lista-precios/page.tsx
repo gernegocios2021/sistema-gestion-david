@@ -62,8 +62,7 @@ export default function ListaPreciosPage() {
     <div className="flex">
       <Sidebar />
       
-      <div className="ml-64 flex-1 bg-gray-50 min-h-screen p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="md:ml-64 flex-1 bg-gray-50 min-h-screen p-4 md:p-8">        <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Lista de Precios</h1>
           <p className="text-gray-600 mb-6">Vehículos disponibles para venta</p>
 
