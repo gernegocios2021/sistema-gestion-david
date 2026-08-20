@@ -11,13 +11,17 @@ export default function VehiculosPage() {
   const [vehiculos, setVehiculos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [mostrarForm, setMostrarForm] = useState(false);
-  const [form, setForm] = useState({
+    const [form, setForm] = useState({
     patente: '',
     marca: '',
     modelo: '',
     ano: new Date().getFullYear(),
     kilometros: 0,
-    precio_base: 0
+    precio_base: 0,
+    version: '',
+    combustible: '',
+    primera_mano: false,
+    observaciones: ''
   });
 
   useEffect(() => {
@@ -47,18 +51,39 @@ export default function VehiculosPage() {
       
       if (json.success) {
         setVehiculos([json.data, ...vehiculos]);
-        setForm({
+                setForm({
           patente: '',
           marca: '',
           modelo: '',
           ano: new Date().getFullYear(),
           kilometros: 0,
-          precio_base: 0
+          precio_base: 0,
+          version: '',
+          combustible: '',
+          primera_mano: false,
+          observaciones: ''
         });
         setMostrarForm(false);
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+    const formatNumero = (valor: number) => {
+    return valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
+
+  const handleKilometrosChange = (value: string) => {
+    const numeros = value.replace(/\./g, '');
+    if (!isNaN(Number(numeros))) {
+      setForm({...form, kilometros: parseInt(numeros) || 0});
+    }
+  };
+
+  const handlePrecioChange = (value: string) => {
+    const numeros = value.replace(/\./g, '');
+    if (!isNaN(Number(numeros))) {
+      setForm({...form, precio_base: parseFloat(numeros) || 0});
     }
   };
 
@@ -120,31 +145,74 @@ export default function VehiculosPage() {
                     <option key={a} value={a}>{a}</option>
                   ))}
                 </select>
+                                                  <div>
+                  <label className="text-sm text-gray-600 mb-1 block">📏 Kilómetros</label>
+                  <input
+                    type="text"
+                    placeholder="Ej: 120.000"
+                    value={formatNumero(form.kilometros)}
+                    onChange={(e) => handleKilometrosChange(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white font-semibold"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-gray-600 mb-1 block">💰 Precio Base (Compra) $</label>
+                  <input
+                    type="text"
+                    placeholder="Ej: 1.300.000"
+                    value={formatNumero(form.precio_base)}
+                    onChange={(e) => handlePrecioChange(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white font-semibold"
+                    required
+                  />
+                </div>
                 <input
-                  type="number"
-                  placeholder="Kilómetros"
-                  value={form.kilometros}
-                  onChange={(e) => setForm({...form, kilometros: parseInt(e.target.value)})}
+                  type="text"
+                  placeholder="Versión (ej: GT, LX, Premium)"
+                  value={form.version || ''}
+                  onChange={(e) => setForm({...form, version: e.target.value})}
                   className="border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
-                  required
                 />
-                <input
-                  type="number"
-                  placeholder="Precio Base"
-                  value={form.precio_base}
-                  onChange={(e) => setForm({...form, precio_base: parseFloat(e.target.value)})}
+                <select
+                  value={form.combustible || ''}
+                  onChange={(e) => setForm({...form, combustible: e.target.value})}
                   className="border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
-                  required
+                >
+                  <option value="">Seleccionar Combustible</option>
+                  <option value="Nafta">Nafta</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="GNC">GNC</option>
+                  <option value="Híbrido">Híbrido</option>
+                  <option value="Eléctrico">Eléctrico</option>
+                </select>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="primera_mano"
+                    checked={form.primera_mano || false}
+                    onChange={(e) => setForm({...form, primera_mano: e.target.checked})}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="primera_mano" className="text-gray-900 font-semibold">Primera Mano</label>
+                </div>
+                <textarea
+                  placeholder="Observaciones (puntos fuertes/débiles para negociar)"
+                  value={form.observaciones || ''}
+                  onChange={(e) => setForm({...form, observaciones: e.target.value})}
+                  className="border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white col-span-2"
+                  rows={3}
                 />
                 <button
                   type="submit"
                   className="col-span-2 bg-green-600 text-white py-2 rounded hover:bg-green-700 font-semibold"
                 >
-                  Guardar
+                  Guardar Vehículo
                 </button>
               </form>
             </div>
           )}
+          
 
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Listado de Vehículos</h2>
