@@ -1,124 +1,91 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (path: string) => pathname === path;
+
+  const navItems = [
+    { href: '/', label: 'Dashboard', icon: '📊' },
+    { href: '/vehiculos', label: 'Vehículos', icon: '🚗' },
+    { href: '/compras', label: 'Compras', icon: '📦' },
+    { href: '/toma-de-usado', label: 'Toma de Usado', icon: '🔄' },
+    { href: '/lista-precios', label: 'Lista de Precios', icon: '💰' },
+    { href: '/ventas', label: 'Ventas', icon: '💳' },
+    { href: '/clientes', label: 'Clientes', icon: '👥' },
+    { href: '/gastos-taller', label: 'Gastos Taller', icon: '🔧' },
+    { href: '/importar', label: 'Importar', icon: '📥' },
+    { href: '/reportes', label: 'Reportes', icon: '📋' },
+  ];
 
   return (
-    <div className="w-64 bg-gray-900 text-white min-h-screen fixed left-0 top-0 pt-8">
-      <div className="px-6 mb-8">
-        <h1 className="text-2xl font-bold">GestiónPro</h1>
-        <p className="text-gray-400 text-sm">David Concesionario</p>
+    <>
+      {/* HAMBURGUESA MOBILE */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-4 left-4 z-40 bg-blue-600 text-white p-2 rounded"
+      >
+        {sidebarOpen ? '✕' : '☰'}
+      </button>
+
+      {/* OVERLAY MOBILE */}
+      {sidebarOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* SIDEBAR */}
+      <div
+        className={`fixed md:static left-0 top-0 h-screen w-64 bg-gray-900 text-white flex flex-col z-40 transform transition-transform md:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* HEADER */}
+        <div className="p-6 border-b border-gray-800">
+          <h1 className="text-2xl font-bold">GestiónPro</h1>
+          <p className="text-sm text-gray-400">David Concesionario</p>
+        </div>
+
+        {/* NAVEGACIÓN */}
+        <nav className="flex-1 overflow-y-auto p-4 space-y-2">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                isActive(item.href)
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-300 hover:bg-gray-800'
+              }`}
+            >
+              <span>{item.icon}</span>
+              <span className="font-medium">{item.label}</span>
+            </Link>
+          ))}
+        </nav>
+
+        {/* FOOTER */}
+        <div className="p-4 border-t border-gray-800">
+          <button
+            onClick={() => {
+              setSidebarOpen(false);
+              // Aquí iría logout
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition"
+          >
+            <span>🚪</span>
+            <span>Salir</span>
+          </button>
+        </div>
       </div>
-
-      <nav className="space-y-2 px-4">
-        <Link
-          href="/"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>📊</span> Dashboard
-        </Link>
-
-        <Link
-          href="/vehiculos"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/vehiculos') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>🚗</span> Vehículos
-        </Link>
-
-                <Link
-          href="/compras"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/compras') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>📦</span> Compras
-        </Link>
-                <Link
-          href="/toma-de-usado"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/toma-de-usado') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>🔄</span> Toma de Usado
-        </Link>
-                <Link
-          href="/lista-precios"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/lista-precios') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>💰</span> Lista de Precios
-        </Link>
-
-        <Link
-          href="/ventas"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/ventas') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>💰</span> Ventas
-        </Link>
-
-        <Link
-          href="/clientes"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/clientes') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>👥</span> Clientes
-        </Link>
-
-        <Link
-          href="/gastos"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/gastos') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>🔧</span> Gastos Taller
-        </Link>
-
-        <Link
-          href="/reportes"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-            isActive('/reportes') 
-              ? 'bg-blue-600 text-white' 
-              : 'text-gray-300 hover:bg-gray-800'
-          }`}
-        >
-          <span>📈</span> Reportes
-        </Link>
-      </nav>
-
-      <div className="absolute bottom-8 left-4 right-4 border-t border-gray-700 pt-4">
-        <button className="w-full flex items-center gap-2 px-4 py-2 text-red-400 hover:bg-gray-800 rounded-lg">
-          <span>🚪</span> Salir
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
