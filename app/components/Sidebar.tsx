@@ -28,7 +28,7 @@ export default function Sidebar() {
       {/* HAMBURGUESA MOBILE */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-40 bg-blue-600 text-white p-2 rounded"
+        className="md:hidden fixed top-4 left-4 z-50 bg-blue-600 text-white p-3 rounded-lg"
       >
         {sidebarOpen ? '✕' : '☰'}
       </button>
@@ -43,8 +43,8 @@ export default function Sidebar() {
 
       {/* SIDEBAR */}
       <div
-        className={`fixed md:static left-0 top-0 h-screen w-64 bg-gray-900 text-white flex flex-col z-40 transform transition-transform md:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed md:static left-0 top-0 h-screen w-64 bg-gray-900 text-white flex flex-col z-40 transition-transform duration-300 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* HEADER */}
@@ -77,7 +77,6 @@ export default function Sidebar() {
           <button
             onClick={() => {
               setSidebarOpen(false);
-              // Aquí iría logout
             }}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition"
           >
